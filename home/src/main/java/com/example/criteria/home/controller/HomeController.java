@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,16 +18,16 @@ public class HomeController {
     private HomeService service;
 
     @GetMapping("/{name}")
-    public Optional<Home> getHome(@PathVariable String name){
+    public List<Home> getHome(@PathVariable String name){
         return service.getHome(name);
     }
 
     @GetMapping("/search/{name}")
-    public Optional<Home> searchAll(@PathVariable String name){
+    public List<Home> searchAll(@PathVariable String name){
         return service.getAny(name);
     }
     @GetMapping("/and/{name}/{type}")
-    public Optional<Home> getNameAndType(@PathVariable String name, @PathVariable String type){
+    public List<Home> getNameAndType(@PathVariable String name, @PathVariable String type){
         return service.getNameAndType(name,type);
     }
 }
