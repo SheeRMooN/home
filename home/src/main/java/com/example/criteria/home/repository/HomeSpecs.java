@@ -2,13 +2,23 @@ package com.example.criteria.home.repository;
 
 import com.example.criteria.home.model.Home;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
-
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 
 @AllArgsConstructor
+@Component
 public final class HomeSpecs {
+    EntityManager entityManager;
 
     public static Specification<Home> getHomeByNameSpec(String name) {
         return (root, query, cb) -> {
@@ -33,14 +43,16 @@ public final class HomeSpecs {
           );
         };
     }
-//    public static Specification<Home> seeqewq(String search){
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("home-unit");
-//        EntityManager em = emf.createEntityManager();
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//
-//        //main query
-//        CriteriaQuery<Home> employeeQuery = cb.createQuery(Home.class);
-//        Root<Home> employee = employeeQuery.from(Home.class);
+    public  List<Home> search(String search){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        //main query
+        CriteriaQuery<Home> criteria = cb.createQuery(Home.class);
+        Root<Home> homeRoot = criteria.from(Home.class);
+        criteria.select(homeRoot);
+        criteria.where(cb.equal(homeRoot.get("name"),search));
+        return  entityManager.createQuery(criteria).getResultList();
+
 //        //subquery
 //        Subquery<JobInfo> jobInfoSubquery = employeeQuery.subquery(JobInfo.class);
 //        Root<JobInfo> jobInfo = jobInfoSubquery.from(JobInfo.class);
@@ -56,13 +68,13 @@ public final class HomeSpecs {
 //        resultList.forEach(System.out::println);
 //
 //        entityManager.close();
-//        // equivalent JPQL
-//        //"SELECT e FROM Employee e WHERE EXISTS (SELECT j from JobInfo j WHERE j.jobName = e.job)"
-//
-//
-//
-//        return null;
-//    }
+        // equivalent JPQL
+        //"SELECT e FROM Employee e WHERE EXISTS (SELECT j from JobInfo j WHERE j.jobName = e.job)"
+
+
+
+
+    }
 
 
 
