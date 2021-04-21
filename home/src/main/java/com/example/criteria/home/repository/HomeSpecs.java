@@ -43,42 +43,28 @@ public final class HomeSpecs {
           );
         };
     }
-    public  List<Home> search(String search){
+    public  List<Home> searchName(String search) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-
-        //main query
         CriteriaQuery<Home> criteria = cb.createQuery(Home.class);
         Root<Home> homeRoot = criteria.from(Home.class);
         criteria.select(homeRoot);
-        criteria.where(cb.equal(homeRoot.get("name"),search));
-        return  entityManager.createQuery(criteria).getResultList();
-
-//        //subquery
-//        Subquery<JobInfo> jobInfoSubquery = employeeQuery.subquery(JobInfo.class);
-//        Root<JobInfo> jobInfo = jobInfoSubquery.from(JobInfo.class);
-//        jobInfoSubquery.select(jobInfo)//subquery selection
-//                .where(criteriaBuilder.equal(jobInfo.get(JobInfo_.jobName),
-//                        employee.get(Employee_.job)));//subquery restriction
-//        //main query selection
-//        employeeQuery.select(employee)
-//                .where(criteriaBuilder.exists(jobInfoSubquery));
-//
-//        TypedQuery<Employee> typedQuery = entityManager.createQuery(employeeQuery);
-//        List<Employee> resultList = typedQuery.getResultList();
-//        resultList.forEach(System.out::println);
-//
-//        entityManager.close();
-        // equivalent JPQL
-        //"SELECT e FROM Employee e WHERE EXISTS (SELECT j from JobInfo j WHERE j.jobName = e.job)"
-
-
-
-
+        criteria.where(cb.equal(homeRoot.get("name"), search));
+        return entityManager.createQuery(criteria).getResultList();
     }
-
-
-
-
+    public  List<Home> searchAllName() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Home> criteria = cb.createQuery(Home.class);
+        Root<Home> homeRoot = criteria.from(Home.class);
+        criteria.select(homeRoot);
+        return entityManager.createQuery(criteria).getResultList();
+    }
+    public  List<String> searchAllNameString() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<String> criteria = cb.createQuery(String.class);
+        Root<String> homeRoot = criteria.from(String.class);
+        criteria.select(homeRoot);
+        return entityManager.createQuery(criteria).getResultList();
+    }
 
 
 

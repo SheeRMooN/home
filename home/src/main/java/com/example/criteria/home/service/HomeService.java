@@ -19,20 +19,24 @@ public class HomeService {
     HomeSpecs homeSpecs;
 
     public List<Home> getSearch(String name){
-        return homeSpecs.search(name);
+        return homeSpecs.searchName(name);
+    }
+    public List<String> getCriteriaAll(){
+        return homeSpecs.searchAllNameString();
+    }
+    public List<Home> getCriteriaAllHome(){
+        return homeSpecs.searchAllName();
     }
 
 
     public List<Home> getHome(String name){
-
         return homeRepository.findAll(getHomeByNameSpec(name));
     }
 
     public List<Home> getAny(String name){
-
         return homeRepository.findAll(searchOne(name));
-
     }
+
     public List<Home> getNameAndType(String name, String type){
 //        Specification<Home> homeSP = HomeSpecs.getNameAndType( name, type);
 //        Optional<Home> result = homeRepository.findOne(homeSP);
